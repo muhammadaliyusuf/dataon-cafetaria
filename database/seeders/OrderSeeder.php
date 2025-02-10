@@ -38,7 +38,7 @@ class OrderSeeder extends Seeder
                 'notes' => 'Tambah saus ekstra'
             ],
             [
-                'user_id' => 3,
+                'user_id' => 2,
                 'menu_id' => 3,
                 'quantity' => 3,
                 'unit_price' => 20000,

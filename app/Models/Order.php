@@ -8,6 +8,9 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
+        'menu_id',
+        'quantity',
+        'unit_price',
         'total_amount',
         'payment_method',
         'order_time',
@@ -16,17 +19,18 @@ class Order extends Model
 
     protected $casts = [
         'total_amount' => 'integer',
+        'unit_price' => 'integer',
+        'quantity' => 'integer',
         'order_time' => 'datetime',
     ];
 
-    public function users()
+    public function user()  // Ubah dari users() ke user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function menus()
+    public function menu()  // Ubah dari menus() ke menu()
     {
-        return $this->belongsToMany(Menu::class, 'order_items')
-            ->withPivot(['quantity', 'unit_price', 'subtotal']);
+        return $this->belongsTo(Menu::class);
     }
 }

@@ -21,45 +21,54 @@
                 background-color: #f8f9fa;
             }
 
-            .table-custom {
-                width: 100%;
-                border-collapse: separate;
-                border-spacing: 0;
+            .transition-all {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .transition-all:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            }
+            .btn-hover {
+                transition: background-color 0.3s ease, transform 0.3s ease;
+            }
+            .btn-hover:hover {
+                background-color: #0b5ed7;
+                transform: scale(1.05);
+            }
+            .card-img-top {
+                border-radius: 10px 10px 0 0;
+            }
+            .card {
                 border-radius: 10px;
-                overflow: hidden;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .modal-content {
+                border-radius: 15px;
+                border: none;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             }
 
-            .table-custom thead {
-                background-color: #282e33;
-                color: white;
+            .modal-header {
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
             }
 
-            .table-custom th,
-            .table-custom td {
-                padding: 12px;
-                text-align: center;
+            .modal-footer {
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
             }
 
-            .table-custom tbody tr:nth-child(odd) {
+            .form-control-lg, .form-select-lg {
+                font-size: 1rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .btn-lg {
+                padding: 0.4rem 1.25rem;
+                font-size: 1rem;
+            }
+
+            .btn-outline-secondary:hover {
                 background-color: #f8f9fa;
-            }
-
-            .table-custom tbody tr:hover {
-                background-color: #e9ecef;
-                transition: background-color 0.3s ease;
-            }
-
-            .table-custom th {
-                font-weight: 600;
-            }
-
-            .table-custom td {
-                font-weight: 500;
-            }
-
-            .table-custom tbody tr:last-child td {
-                border-bottom: none;
             }
         </style>
     </head>

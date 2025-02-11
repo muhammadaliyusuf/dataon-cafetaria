@@ -1,5 +1,10 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\GateServiceProvider;
+use App\Providers\EventServiceProvider;
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*

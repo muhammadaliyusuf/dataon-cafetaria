@@ -1,45 +1,66 @@
 @extends('menu.layouts.main')
 
 @section('container')
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Detail Menu</h5>
+                    <a href="{{ route('menu.create') }}" class="btn btn-secondary">Kembali</a>
+                </div>
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Detail Pesanan #{{ $order->id }}</h1>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @if($menu->image)
+                                <img src="{{ asset('storage/' . $menu->image) }}" 
+                                        alt="Menu Image" 
+                                        class="img-fluid rounded">
+                            @else
+                                <div class="alert alert-info">Tidak ada gambar</div>
+                            @endif
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table">
+                                <tr>
+                                    <th width="30%">Kategori</th>
+                                    <td>{{ $menu->category->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nama Menu</th>
+                                    <td>{{ $menu->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Deskripsi</th>
+                                    <td>{{ $menu->description }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Harga</th>
+                                    <td>Rp {{ number_format($menu->price, 0, ',', '.') }}</td>
+                                </tr>
+                            </table>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Informasi Pesanan</h5>
-            <p><strong>Total Harga:</strong> Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
-            <p><strong>Metode Pembayaran:</strong> {{ $order->payment_method }}</p>
-            <p><strong>Waktu Pesanan:</strong> {{ $order->order_time->format('d M Y, H:i') }}</p>
-            <p><strong>Catatan:</strong> {{ $order->notes ?? 'Tidak ada catatan' }}</p>
+                            <div class="mt-3">
+                                <a href="{{ route('menu.edit', $menu->id) }}" 
+                                    class="btn btn-warning">Edit Menu</a>
+                                <form action="{{ route('menu.destroy', $menu->id) }}" 
+                                        method="POST" 
+                                        class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="btn btn-danger" 
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus menu ini?')">
+                                        Hapus Menu
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <h5 class="mt-4">Item Pesanan</h5>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Nama Menu</th>
-                    <th>Jumlah</th>
-                    <th>Harga Satuan</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($order->orderItems as $item)
-                    <tr>
-                        <td>{{ $item->menu->name }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>Rp {{ number_format($item->unit_price, 0, ',', '.') }}</td>
-                        <td>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <a href="{{ route('orders.order') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Pesanan</a>
 </div>
-
 @endsection

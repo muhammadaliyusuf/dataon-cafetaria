@@ -14,8 +14,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->integer('price');
-            $table->boolean('is_available')->default(true);
-            $table->string('image_url')->nullable();
+            $table->string('image')->nullable();
         });
     }
 

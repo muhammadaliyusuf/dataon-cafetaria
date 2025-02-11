@@ -20,8 +20,7 @@ class MenuSeeder extends Seeder
             'name' => 'Nasi Goreng Spesial',
             'description' => 'Nasi goreng dengan telur, ayam, dan sayuran',
             'price' => 25000,
-            'is_available' => true,
-            'image_url' => 'nasigoreng.jpg'
+            'image' => 'nasigoreng.jpg'
         ]);
 
         Menu::create([
@@ -29,8 +28,7 @@ class MenuSeeder extends Seeder
             'name' => 'Pudding',
             'description' => 'Pudding Mango',
             'price' => 5000,
-            'is_available' => true,
-            'image_url' => 'pudding.jpg'
+            'image' => 'pudding.jpg'
         ]);
 
         // Minuman
@@ -39,8 +37,7 @@ class MenuSeeder extends Seeder
             'name' => 'Kentang',
             'description' => 'Kentang Balado',
             'price' => 10000,
-            'is_available' => true,
-            'image_url' => 'kentang.jpg'
+            'image' => 'kentang.jpg'
         ]);
 
         Menu::create([
@@ -48,8 +45,7 @@ class MenuSeeder extends Seeder
             'name' => 'Jus Alpukat',
             'description' => 'Jus alpukat segar dengan susu',
             'price' => 15000,
-            'is_available' => true,
-            'image_url' => 'jusalpukat.jpg'
+            'image' => 'jusalpukat.jpg'
         ]);
 
         Menu::create([
@@ -57,8 +53,7 @@ class MenuSeeder extends Seeder
             'name' => 'Gado-Gado',
             'description' => 'Gado-Gado Jawa',
             'price' => 12000,
-            'is_available' => true,
-            'image_url' => 'gadogado.jpg'
+            'image' => 'gadogado.jpg'
         ]);
     }
 }

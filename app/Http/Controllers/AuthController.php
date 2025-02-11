@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
     // Menampilkan halaman login
-    public function showLoginForm()
+    public function indexLogin()
     {
         return view('auth.login');
     }
@@ -19,26 +20,23 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // Validasi input
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Coba melakukan login
-        $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             // Jika berhasil, redirect ke halaman dashboard atau menu
+            $request->session()->regenerate();
             return redirect()->intended('/menu');
         }
 
         // Jika gagal, kembali ke halaman login dengan pesan error
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back()->with('loginError', 'Name or Password uncorrect')->withInput();
     }
 
     // Menampilkan halaman register
-    public function showRegisterForm()
+    public function indexRegister()
     {
         return view('auth.register');
     }
@@ -46,33 +44,42 @@ class AuthController extends Controller
     // Proses register
     public function register(Request $request)
     {
+
         // Validasi input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'phone' => 'required|string|max:15',
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email:dns|unique:users',
+            'phone' => ['required', 'regex:/^(\+62|62|0)[2-9][0-9]{7,12}$/'],
+            'password' => [
+                'required',
+                'confirmed', // Menambahkan validasi konfirmasi password
+                Password::min(8)
+                    ->mixedCase() // Harus ada huruf besar & kecil
+                    ->letters() // Harus ada huruf
+                    ->numbers() // Harus ada angka
+                    ->symbols() // Harus ada simbol
+            ],
+        ], [
+            'password.confirmed' => 'Password confirmation does not match.',
+            'phone.regex' => 'Must start with +62 or 0.',
         ]);
+
+        $validatedData['password'] = Hash::make($validatedData['password']);
 
         // Membuat user baru
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-        ]);
-
-        // Login user setelah registrasi
-        Auth::login($user);
+        User::create($validatedData);
 
         // Redirect ke halaman dashboard atau menu
-        return redirect('/menu');
+        return redirect('/login')->with('success', 'Registration successfull, please login.');
     }
 
     // Proses logout
     public function logout()
     {
         Auth::logout();
+        // supaya sessionnya berakhir & tidak bisa dipakai
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
         return redirect('/login');
     }
 }
